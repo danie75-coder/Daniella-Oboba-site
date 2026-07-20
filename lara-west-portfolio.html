@@ -31,6 +31,29 @@
   .container{max-width:1180px; margin:0 auto; padding:0 40px;}
   section{scroll-margin-top:90px;}
 
+  /* EDIT MODE STYLES */
+  .edit-toggle{position:fixed; bottom:30px; right:30px; z-index:1000; padding:12px 20px; background:var(--gold); color:#fff; border:none; border-radius:50px; cursor:pointer; font-weight:600; font-size:.85rem; letter-spacing:.05em; box-shadow:0 4px 12px rgba(0,0,0,0.15); transition:.3s;}
+  .edit-toggle:hover{transform:scale(1.05); box-shadow:0 6px 16px rgba(0,0,0,0.2);}
+  .edit-toggle.active{background:#d9534f;}
+  
+  .editable{position:relative;}
+  .editable.editing{outline:2px dashed var(--gold); outline-offset:4px; padding:8px; background:rgba(201, 161, 90, 0.05); border-radius:4px;}
+  
+  .edit-field{display:none; margin-top:10px;}
+  .editable.editing .edit-field{display:block;}
+  .editable.editing > *:not(.edit-field){display:none;}
+  
+  .edit-field textarea, .edit-field input{width:100%; padding:12px; font-family:'Jost', sans-serif; font-size:1rem; border:1px solid var(--gold); border-radius:4px; resize:vertical; color:var(--ink);}
+  .edit-field textarea{min-height:80px;}
+  
+  .edit-buttons{display:flex; gap:8px; margin-top:8px;}
+  .edit-btn{padding:8px 12px; font-size:.8rem; border:none; border-radius:4px; cursor:pointer; font-weight:500; transition:.2s;}
+  .edit-btn-save{background:var(--gold); color:#fff;}
+  .edit-btn-save:hover{opacity:.88;}
+  .edit-btn-cancel{background:var(--line); color:var(--ink);}
+  .edit-btn-cancel:hover{background:#ccc;}
+  .edit-btn-edit{background:var(--gold); color:#fff; padding:4px 8px; font-size:.7rem; margin-top:4px;}
+
   /* NAV */
   header{
     display:flex; align-items:center; justify-content:space-between;
@@ -145,10 +168,13 @@
     nav{display:none;}
     .hero, .whatido, .split, .proj-grid, .quotes, .price-grid{grid-template-columns:1fr;}
     .services{grid-template-columns:repeat(2,1fr);}
+    .edit-toggle{bottom:20px; right:20px; padding:10px 16px; font-size:.75rem;}
   }
 </style>
 </head>
 <body>
+
+<button class="edit-toggle" onclick="toggleEditMode()">✏️ EDIT MODE</button>
 
 <header>
   <div class="logo">LARA WEST<span>COPYWRITER</span></div>
@@ -166,8 +192,24 @@
 <section id="home" class="hero">
   <div>
     <span class="eyebrow">FREELANCE COPYWRITER</span>
-    <h1>Words that sell.<br><em>Messaging that<br>moves people.</em></h1>
-    <p>I help brands turn browsers into buyers with strategic copy that connects, convinces, and converts.</p>
+    <h1>
+      <span id="hero-main">Words that sell.<br><em>Messaging that<br>moves people.</em></span>
+      <div class="edit-field" id="hero-main-edit">
+        <textarea id="hero-main-input"></textarea>
+        <div class="edit-buttons">
+          <button class="edit-btn edit-btn-save" onclick="saveEdit('hero-main', 'hero-main-input')">Save</button>
+          <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
+        </div>
+      </div>
+    </h1>
+    <p id="hero-desc">I help brands turn browsers into buyers with strategic copy that connects, convinces, and converts.</p>
+    <div class="edit-field" id="hero-desc-edit">
+      <textarea id="hero-desc-input"></textarea>
+      <div class="edit-buttons">
+        <button class="edit-btn edit-btn-save" onclick="saveEdit('hero-desc', 'hero-desc-input')">Save</button>
+        <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
+      </div>
+    </div>
     <div class="hero-buttons">
       <a href="#portfolio"><button class="btn-dark">VIEW MY WORK →</button></a>
       <a href="#contact"><button class="btn-outline">LET'S WORK TOGETHER</button></a>
@@ -181,8 +223,15 @@
 <section class="logos">
   <div class="container">
     <span class="eyebrow">TRUSTED BY BRANDS WORLDWIDE</span>
-    <div class="logo-row">
+    <div class="logo-row" id="brands">
       <div>FOUNDRY</div><div><em>bare.</em></div><div>LUMEN</div><div>HONEYLOVE</div><div>BRANDI D.</div><div>nomad<br><small style="font-size:.5em;letter-spacing:.2em;">GOODS</small></div>
+    </div>
+    <div class="edit-field" id="brands-edit">
+      <textarea id="brands-input" placeholder="Enter brands separated by commas"></textarea>
+      <div class="edit-buttons">
+        <button class="edit-btn edit-btn-save" onclick="saveBrands()">Save</button>
+        <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
+      </div>
     </div>
   </div>
 </section>
@@ -192,7 +241,7 @@
     <span class="eyebrow">WHAT I DO</span>
     <h2>Copy that communicates. Strategy that converts.</h2>
   </div>
-  <div class="services">
+  <div class="services" id="services-container">
     <div class="service">
       <div class="icon">✒️</div>
       <h3>Website Copy</h3>
@@ -229,8 +278,8 @@
       </div>
       <a class="view-all" href="#portfolio">VIEW ALL PROJECTS →</a>
     </div>
-    <div class="proj-grid">
-      <a class="proj-card" href="#portfolio">
+    <div class="proj-grid" id="projects-container">
+      <div class="proj-card" data-project="0">
         <div class="proj-img">
           <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=500&q=80" alt="Lumen Skincare">
           <span class="tag">WEBSITE COPY</span>
@@ -238,8 +287,8 @@
         <h3>Lumen Skincare</h3>
         <p>Clean, conversion-focused copy for a luxury skincare brand.</p>
         <span class="learn">VIEW PROJECT →</span>
-      </a>
-      <a class="proj-card" href="#portfolio">
+      </div>
+      <div class="proj-card" data-project="1">
         <div class="proj-img">
           <img src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=500&q=80" alt="Nomad Goods">
           <span class="tag">SALES PAGE</span>
@@ -247,8 +296,8 @@
         <h3>Nomad Goods</h3>
         <p>Sales page that increased conversions by 38%.</p>
         <span class="learn">VIEW PROJECT →</span>
-      </a>
-      <a class="proj-card" href="#portfolio">
+      </div>
+      <div class="proj-card" data-project="2">
         <div class="proj-img">
           <img src="https://images.unsplash.com/photo-1596526131083-e8c633c948d2?w=500&q=80" alt="Honeylove">
           <span class="tag">EMAIL CAMPAIGN</span>
@@ -256,7 +305,7 @@
         <h3>Honeylove</h3>
         <p>Email campaign that drove a 21% increase in revenue.</p>
         <span class="learn">VIEW PROJECT →</span>
-      </a>
+      </div>
     </div>
   </div>
 </section>
@@ -265,25 +314,25 @@
   <section id="about" class="testimonials">
     <span class="eyebrow">KIND WORDS</span>
     <h2>What clients say</h2>
-    <div class="quotes">
-      <div>
-        <div class="quote-mark">“</div>
+    <div class="quotes" id="quotes-container">
+      <div class="quote" data-quote="0">
+        <div class="quote-mark">"</div>
         <p>Lara nailed our brand voice and delivered website copy that truly connects. Our conversions have never been better.</p>
         <div class="client">
           <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80" alt="Jessica Dean">
           <div><strong>JESSICA DEAN</strong><span>Founder, Lumen Skincare</span></div>
         </div>
       </div>
-      <div>
-        <div class="quote-mark">“</div>
+      <div class="quote" data-quote="1">
+        <div class="quote-mark">"</div>
         <p>Professional, strategic, and incredibly easy to work with. Lara's copy drives results.</p>
         <div class="client">
           <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&q=80" alt="Alex Reyes">
           <div><strong>ALEX REYES</strong><span>Marketing Director, Nomad Goods</span></div>
         </div>
       </div>
-      <div>
-        <div class="quote-mark">“</div>
+      <div class="quote" data-quote="2">
+        <div class="quote-mark">"</div>
         <p>The email campaign Lara wrote outperformed all our previous campaigns by far.</p>
         <div class="client">
           <img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=100&q=80" alt="Megan Watts">
@@ -317,20 +366,20 @@
 <section id="process" class="pricing">
   <span class="eyebrow">INVESTMENT</span>
   <h2>Simple, transparent pricing.</h2>
-  <div class="price-grid">
-    <div class="price-card">
+  <div class="price-grid" id="pricing-container">
+    <div class="price-card" data-price="0">
       <span class="label">PROJECT-BASED</span>
       <div class="amount">From $750</div>
       <p>One-time projects tailored to your specific needs.</p>
       <a class="get-started" href="#contact">GET STARTED →</a>
     </div>
-    <div class="price-card popular">
+    <div class="price-card popular" data-price="1">
       <span class="label">MOST POPULAR — PACKAGE</span>
       <div class="amount">From $1,800</div>
       <p>Perfect for brands that need ongoing copy support.</p>
       <a class="get-started" href="#contact">GET STARTED →</a>
     </div>
-    <div class="price-card">
+    <div class="price-card" data-price="2">
       <span class="label">RETAINER</span>
       <div class="amount">From $3,000<small style="font-size:.5em;">/mo</small></div>
       <p>Ongoing copywriting support for consistent growth.</p>
@@ -356,12 +405,129 @@
 </section>
 
 <script>
-  document.querySelectorAll('nav a').forEach(link=>{
-    link.addEventListener('click',()=>{
-      document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
+  // Initialize edit mode and load saved data
+  let editMode = false;
+  let currentEditElement = null;
+
+  function toggleEditMode() {
+    editMode = !editMode;
+    const btn = document.querySelector('.edit-toggle');
+    btn.classList.toggle('active', editMode);
+    btn.textContent = editMode ? '✓ EDITING' : '✏️ EDIT MODE';
+    
+    // Show/hide editable content
+    const editables = document.querySelectorAll('h1 > span, p#hero-desc, .logo-row, .service h3, .service p, .proj-card h3, .proj-card p, .quote p, .client strong, .client span, .price-card .label, .price-card .amount, .price-card p');
+    
+    if (editMode) {
+      editables.forEach(el => {
+        el.style.cursor = 'pointer';
+        el.addEventListener('click', startEdit);
+      });
+    } else {
+      editables.forEach(el => {
+        el.style.cursor = 'auto';
+        el.removeEventListener('click', startEdit);
+      });
+    }
+  }
+
+  function startEdit(e) {
+    if (!editMode) return;
+    
+    const element = e.target.closest('h1 > span, p#hero-desc, .logo-row, .service h3, .service p, .proj-card h3, .proj-card p, .quote p, .client strong, .client span, .price-card .label, .price-card .amount, .price-card p');
+    if (!element) return;
+    
+    currentEditElement = element;
+    
+    if (element.id === 'hero-main') {
+      document.getElementById('hero-main-input').value = element.innerHTML.replace(/<br>/g, '\n').replace(/<em>/g, '').replace(/<\/em>/g, '');
+      element.parentElement.style.display = 'none';
+      document.getElementById('hero-main-edit').style.display = 'block';
+    } else if (element.id === 'hero-desc') {
+      document.getElementById('hero-desc-input').value = element.textContent;
+      element.style.display = 'none';
+      document.getElementById('hero-desc-edit').style.display = 'block';
+    }
+  }
+
+  function saveEdit(elementId, inputId) {
+    const input = document.getElementById(inputId);
+    const element = document.getElementById(elementId);
+    
+    if (elementId === 'hero-main') {
+      element.innerHTML = input.value.replace(/\n/g, '<br>');
+      document.getElementById('hero-main-edit').style.display = 'none';
+      element.parentElement.style.display = 'block';
+    } else if (elementId === 'hero-desc') {
+      element.textContent = input.value;
+      document.getElementById('hero-desc-edit').style.display = 'none';
+      element.style.display = 'block';
+    }
+    
+    localStorage.setItem(elementId, input.value);
+    currentEditElement = null;
+  }
+
+  function cancelEdit() {
+    document.querySelectorAll('.edit-field').forEach(el => el.style.display = 'none');
+    if (currentEditElement) {
+      currentEditElement.style.display = '';
+      if (currentEditElement.parentElement) {
+        currentEditElement.parentElement.style.display = '';
+      }
+    }
+  }
+
+  function saveBrands() {
+    const input = document.getElementById('brands-input').value;
+    const brands = input.split(',').map(b => b.trim());
+    
+    const container = document.getElementById('brands');
+    container.innerHTML = '';
+    
+    brands.forEach((brand, idx) => {
+      const div = document.createElement('div');
+      div.textContent = brand;
+      container.appendChild(div);
+    });
+    
+    document.getElementById('brands-edit').style.display = 'none';
+    container.style.display = 'flex';
+    
+    localStorage.setItem('brands', input);
+  }
+
+  // Load saved data on page load
+  function loadSavedData() {
+    const heroMain = localStorage.getItem('hero-main');
+    if (heroMain) document.getElementById('hero-main').innerHTML = heroMain.replace(/\n/g, '<br>');
+    
+    const heroDesc = localStorage.getItem('hero-desc');
+    if (heroDesc) document.getElementById('hero-desc').textContent = heroDesc;
+    
+    const brands = localStorage.getItem('brands');
+    if (brands) {
+      const brandList = brands.split(',').map(b => b.trim());
+      const container = document.getElementById('brands');
+      container.innerHTML = '';
+      brandList.forEach(brand => {
+        const div = document.createElement('div');
+        div.textContent = brand;
+        container.appendChild(div);
+      });
+    }
+  }
+
+  // Navigation active state
+  document.querySelectorAll('nav a').forEach(link => {
+    link.addEventListener('click', () => {
+      document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
       link.classList.add('active');
     });
   });
+
+  // Initialize on load
+  window.addEventListener('DOMContentLoaded', loadSavedData);
 </script>
 
 </body>
