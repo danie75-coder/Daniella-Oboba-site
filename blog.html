@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog | Lara West Copywriter</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap');
+
+  :root{
+    --cream:#faf7f2; --ink:#1a1a1a; --black:#111111;
+    --gold:#c9a15a; --line:#e4ddd2; --muted:#6f6a62;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Jost', sans-serif; color:var(--ink); background:var(--cream); line-height:1.5;}
+  h1,h2,h3{font-family:'Playfair Display', serif; font-weight:500;}
+  a{text-decoration:none; color:inherit;}
+  .eyebrow{font-size:.75rem; letter-spacing:.18em; text-transform:uppercase; color:var(--gold); font-weight:500; margin-bottom:10px; display:block;}
+  .container{max-width:1180px; margin:0 auto; padding:0 40px;}
+
+  header{display:flex; align-items:center; justify-content:space-between; padding:26px 40px; max-width:1180px; margin:0 auto; flex-wrap:wrap; gap:12px;}
+  .logo{font-family:'Playfair Display', serif; font-size:1.3rem; letter-spacing:.08em;}
+  .logo span{display:block; font-family:'Jost',sans-serif; font-size:.6rem; letter-spacing:.25em; color:var(--muted); text-align:center; margin-top:2px;}
+  nav{display:flex; gap:24px; align-items:center; flex-wrap:wrap;}
+  nav a{font-size:.8rem; letter-spacing:.03em; color:var(--ink); padding-bottom:6px; border-bottom:1px solid transparent; transition:.2s;}
+  nav a.active, nav a:hover{border-bottom:1px solid var(--gold); color:#000;}
+  .btn-dark{background:var(--black); color:#fff; padding:13px 26px; font-size:.8rem; letter-spacing:.05em; border:1px solid var(--black); cursor:pointer;}
+
+  .page-head{padding:50px 40px 30px; max-width:1180px; margin:0 auto;}
+  .page-head h1{font-size:2.6rem;}
+
+  .posts{padding:20px 40px 90px; max-width:900px; margin:0 auto; display:flex; flex-direction:column; gap:0;}
+  .post{display:grid; grid-template-columns:140px 1fr; gap:28px; padding:32px 0; border-bottom:1px solid var(--line);}
+  .post:first-child{padding-top:0;}
+  .post-date{font-size:.8rem; color:var(--muted); letter-spacing:.04em; padding-top:4px;}
+  .post h2{font-size:1.4rem; margin-bottom:10px;}
+  .post p{color:var(--muted); font-size:.92rem; margin-bottom:12px; max-width:620px;}
+  .post .tag{font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--gold); margin-bottom:8px; display:block;}
+  .read-more{font-size:.78rem; letter-spacing:.05em; color:var(--gold); font-weight:500;}
+  .read-more:hover{text-decoration:underline;}
+
+  @media(max-width:700px){
+    nav{gap:14px;}
+    nav a{font-size:.72rem;}
+    .post{grid-template-columns:1fr; gap:6px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="lara-west-portfolio-fixed.html" class="logo">LARA WEST<span>COPYWRITER</span></a>
+  <nav>
+    <a href="lara-west-portfolio-fixed.html#home">HOME</a>
+    <a href="lara-west-portfolio-fixed.html#about">ABOUT</a>
+    <a href="lara-west-portfolio-fixed.html#services">SERVICES</a>
+    <a href="lara-west-portfolio-fixed.html#portfolio">PORTFOLIO</a>
+    <a href="lara-west-portfolio-fixed.html#process">PROCESS</a>
+    <a href="blog.html" class="active">BLOG</a>
+  </nav>
+  <a href="lara-west-portfolio-fixed.html#contact"><button class="btn-dark">LET'S WORK TOGETHER</button></a>
+</header>
+
+<section class="page-head">
+  <span class="eyebrow">THE BLOG</span>
+  <h1>Copy tips and insights.</h1>
+</section>
+
+<!--
+  ============================================
+  HOW TO ADD A NEW POST
+  Copy one <div class="post">...</div> block below,
+  paste it right under this comment, and edit the
+  date, tag, title, and preview text.
+  ============================================
+-->
+<section class="posts">
+
+  <div class="post">
+    <div class="post-date">JUL 14, 2026</div>
+    <div>
+      <span class="tag">Website Copy</span>
+      <h2>5 words that quietly kill your conversion rate</h2>
+      <p>Small wording choices can cost you sales without you ever noticing. Here's what to cut from your homepage this week.</p>
+      <a class="read-more" href="#">READ MORE →</a>
+    </div>
+  </div>
+
+  <div class="post">
+    <div class="post-date">JUL 02, 2026</div>
+    <div>
+      <span class="tag">Email Copy</span>
+      <h2>The subject line formula I use for every client</h2>
+      <p>A simple, repeatable structure that gets emails opened, even from subscribers who've gone cold.</p>
+      <a class="read-more" href="#">READ MORE →</a>
+    </div>
+  </div>
+
+  <div class="post">
+    <div class="post-date">JUN 20, 2026</div>
+    <div>
+      <span class="tag">Brand Messaging</span>
+      <h2>How to find your brand voice in one afternoon</h2>
+      <p>You don't need a full rebrand to sound like yourself. A practical exercise to nail your tone fast.</p>
+      <a class="read-more" href="#">READ MORE →</a>
+    </div>
+  </div>
+
+</section>
+
+</body>
+</html>

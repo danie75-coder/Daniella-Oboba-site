@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lara West | Copywriter</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap');
+
+  :root{
+    --cream:#faf7f2;
+    --ink:#1a1a1a;
+    --black:#111111;
+    --gold:#c9a15a;
+    --line:#e4ddd2;
+    --muted:#6f6a62;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Jost', sans-serif;
+    color:var(--ink);
+    background:var(--cream);
+    line-height:1.5;
+  }
+  h1,h2,h3{font-family:'Playfair Display', serif; font-weight:500;}
+  a{text-decoration:none; color:inherit;}
+  .eyebrow{
+    font-size:.75rem; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--gold); font-weight:500; margin-bottom:10px; display:block;
+  }
+  .container{max-width:1180px; margin:0 auto; padding:0 40px;}
+  section{scroll-margin-top:90px;}
+
+  /* NAV */
+  header{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:26px 40px; max-width:1180px; margin:0 auto;
+  }
+  .logo{font-family:'Playfair Display', serif; font-size:1.3rem; letter-spacing:.08em;}
+  .logo span{display:block; font-family:'Jost',sans-serif; font-size:.6rem; letter-spacing:.25em; color:var(--muted); text-align:center; margin-top:2px;}
+  nav{display:flex; gap:38px; align-items:center;}
+  nav a{font-size:.85rem; letter-spacing:.03em; color:var(--ink); padding-bottom:6px; border-bottom:1px solid transparent; transition:.2s;}
+  nav a.active, nav a:hover{border-bottom:1px solid var(--gold); color:#000;}
+  .btn-dark{
+    background:var(--black); color:#fff; padding:13px 26px; font-size:.8rem;
+    letter-spacing:.05em; border:1px solid var(--black); cursor:pointer; transition:.2s;
+  }
+  .btn-dark:hover{background:#000;}
+  .btn-outline{
+    background:transparent; color:var(--ink); padding:13px 26px; font-size:.8rem;
+    letter-spacing:.05em; border:1px solid var(--ink); cursor:pointer; transition:.2s;
+  }
+  .btn-outline:hover{background:var(--ink); color:#fff;}
+  .btn-gold{
+    background:var(--gold); color:#fff; padding:13px 26px; font-size:.8rem;
+    letter-spacing:.05em; border:none; cursor:pointer; transition:.2s;
+  }
+  .btn-gold:hover{opacity:.88;}
+
+  /* HERO */
+  .hero{display:grid; grid-template-columns:1fr 1.1fr; gap:50px; align-items:center; padding:40px 40px 80px; max-width:1180px; margin:0 auto;}
+  .hero h1{font-size:3.2rem; line-height:1.12; margin-bottom:22px;}
+  .hero h1 em{font-style:italic; font-weight:400;}
+  .hero p{color:var(--muted); max-width:420px; margin-bottom:32px; font-size:1rem;}
+  .hero-buttons{display:flex; gap:14px;}
+  .hero-img{position:relative;}
+  .hero-img img{width:100%; display:block; border-radius:2px;}
+
+  /* LOGOS */
+  .logos{background:#fff; border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:40px;}
+  .logos .container{text-align:center;}
+  .logo-row{display:flex; justify-content:space-between; align-items:center; margin-top:22px; flex-wrap:wrap; gap:20px; opacity:.75; font-family:'Playfair Display',serif; font-size:1.2rem;}
+
+  /* WHAT I DO */
+  .whatido{padding:90px 40px; max-width:1180px; margin:0 auto; display:grid; grid-template-columns:1fr 2.2fr; gap:50px;}
+  .whatido h2{font-size:1.9rem; max-width:280px;}
+  .services{display:grid; grid-template-columns:repeat(4,1fr); gap:36px;}
+  .service .icon{font-size:1.6rem; color:var(--gold); margin-bottom:16px;}
+  .service h3{font-size:1.05rem; margin-bottom:10px; font-weight:600; font-family:'Jost',sans-serif;}
+  .service p{color:var(--muted); font-size:.88rem; margin-bottom:14px;}
+  .learn{font-size:.78rem; letter-spacing:.05em; color:var(--gold); font-weight:500;}
+  .learn:hover{text-decoration:underline;}
+
+  /* FEATURED PROJECTS */
+  .projects{background:var(--black); color:#fff; padding:80px 40px;}
+  .projects .container{max-width:1180px; margin:0 auto;}
+  .proj-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:36px;}
+  .proj-head h2{color:#fff; font-size:1.9rem;}
+  .view-all{color:var(--gold); font-size:.8rem; letter-spacing:.05em;}
+  .proj-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:26px;}
+  .proj-card{cursor:pointer; transition:.25s;}
+  .proj-card:hover{transform:translateY(-4px);}
+  .proj-img{position:relative; overflow:hidden; border-radius:2px; margin-bottom:16px;}
+  .proj-img img{width:100%; height:220px; object-fit:cover; display:block;}
+  .tag{position:absolute; bottom:14px; left:14px; background:var(--cream); color:var(--ink); font-size:.68rem; letter-spacing:.05em; padding:6px 12px;}
+  .proj-card h3{color:#fff; font-size:1.15rem; margin-bottom:8px;}
+  .proj-card p{color:#b9b3a8; font-size:.85rem; margin-bottom:12px;}
+
+  /* TESTIMONIALS + CONTACT */
+  .split{display:grid; grid-template-columns:1.6fr 1fr;}
+  .testimonials{padding:80px 40px; background:var(--cream);}
+  .testimonials h2{font-size:1.9rem; margin-bottom:36px;}
+  .quotes{display:grid; grid-template-columns:repeat(3,1fr); gap:34px;}
+  .quote-mark{font-family:'Playfair Display',serif; font-size:2rem; color:var(--gold);}
+  .quotes p{font-style:normal; font-size:.9rem; margin:10px 0 18px; color:#333;}
+  .client{display:flex; align-items:center; gap:10px;}
+  .client img{width:38px; height:38px; border-radius:50%; object-fit:cover;}
+  .client strong{display:block; font-size:.78rem; letter-spacing:.03em;}
+  .client span{font-size:.75rem; color:var(--muted);}
+
+  .contact{background:var(--black); color:#fff; padding:60px 40px;}
+  .contact h2{color:#fff; font-size:1.7rem; margin-bottom:24px; line-height:1.25;}
+  .contact form{display:flex; flex-direction:column; gap:12px;}
+  .contact input, .contact select, .contact textarea{
+    background:#1e1e1e; border:1px solid #333; color:#fff; padding:13px 14px;
+    font-family:'Jost',sans-serif; font-size:.85rem; width:100%;
+  }
+  .row2{display:flex; gap:12px;}
+  .contact textarea{resize:none; height:100px;}
+  .contact ::placeholder{color:#8c8c8c;}
+
+  /* PRICING */
+  .pricing{padding:80px 40px; max-width:1180px; margin:0 auto;}
+  .pricing h2{font-size:1.9rem; margin-bottom:36px;}
+  .price-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+  .price-card{background:#fff; border:1px solid var(--line); padding:34px 28px; text-align:left;}
+  .price-card.popular{background:var(--black); color:#fff; border:none;}
+  .price-card .label{font-size:.7rem; letter-spacing:.1em; color:var(--muted); text-transform:uppercase;}
+  .price-card.popular .label{color:var(--gold);}
+  .price-card .amount{font-family:'Playfair Display',serif; font-size:2.2rem; margin:14px 0 10px;}
+  .price-card p{font-size:.85rem; color:var(--muted); margin-bottom:20px;}
+  .price-card.popular p{color:#c9c5bc;}
+  .get-started{font-size:.78rem; letter-spacing:.05em; color:var(--gold); font-weight:500; cursor:pointer;}
+
+  /* NEWSLETTER */
+  .newsletter{background:#efe9df; padding:34px 40px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px;}
+  .newsletter .container{display:flex; justify-content:space-between; align-items:center; max-width:1180px; margin:0 auto; width:100%; flex-wrap:wrap; gap:20px;}
+  .newsletter-left{display:flex; align-items:center; gap:14px;}
+  .newsletter-left h4{font-size:1rem; margin-bottom:2px;}
+  .newsletter-left p{font-size:.82rem; color:var(--muted);}
+  .newsletter-form{display:flex; gap:10px;}
+  .newsletter-form input{padding:12px 16px; border:1px solid var(--line); font-family:'Jost',sans-serif; min-width:220px;}
+
+  @media(max-width:900px){
+    nav{gap:16px;}
+    nav a{font-size:.7rem;}
+    header{padding:20px;flex-wrap:wrap;gap:12px;}
+    .hero, .whatido, .split, .proj-grid, .quotes, .price-grid{grid-template-columns:1fr;}
+    .services{grid-template-columns:repeat(2,1fr);}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">LARA WEST<span>COPYWRITER</span></div>
+  <nav>
+    <a href="#home" class="active">HOME</a>
+    <a href="#about">ABOUT</a>
+    <a href="#services">SERVICES</a>
+    <a href="#portfolio">PORTFOLIO</a>
+    <a href="#process">PROCESS</a>
+    <a href="blog.html">BLOG</a>
+  </nav>
+  <a href="#contact"><button class="btn-dark">LET'S WORK TOGETHER</button></a>
+</header>
+
+<section id="home" class="hero">
+  <div>
+    <span class="eyebrow">FREELANCE COPYWRITER</span>
+    <h1>Words that sell.<br><em>Messaging that<br>moves people.</em></h1>
+    <p>I help brands turn browsers into buyers with strategic copy that connects, convinces, and converts.</p>
+    <div class="hero-buttons">
+      <a href="#portfolio"><button class="btn-dark">VIEW MY WORK →</button></a>
+      <a href="#contact"><button class="btn-outline">LET'S WORK TOGETHER</button></a>
+    </div>
+  </div>
+  <div class="hero-img">
+    <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=900&q=80" alt="Lara West at desk">
+  </div>
+</section>
+
+<section class="logos">
+  <div class="container">
+    <span class="eyebrow">TRUSTED BY BRANDS WORLDWIDE</span>
+    <div class="logo-row">
+      <div>FOUNDRY</div><div><em>bare.</em></div><div>LUMEN</div><div>HONEYLOVE</div><div>BRANDI D.</div><div>nomad<br><small style="font-size:.5em;letter-spacing:.2em;">GOODS</small></div>
+    </div>
+  </div>
+</section>
+
+<section id="services" class="whatido">
+  <div>
+    <span class="eyebrow">WHAT I DO</span>
+    <h2>Copy that communicates. Strategy that converts.</h2>
+  </div>
+  <div class="services">
+    <div class="service">
+      <div class="icon">✒️</div>
+      <h3>Website Copy</h3>
+      <p>Engaging, SEO-friendly website copy that turns visitors into loyal customers.</p>
+      <a class="learn" href="#contact">LEARN MORE →</a>
+    </div>
+    <div class="service">
+      <div class="icon">✉️</div>
+      <h3>Email Copy</h3>
+      <p>Sales emails and nurture sequences that get opened, read, and clicked.</p>
+      <a class="learn" href="#contact">LEARN MORE →</a>
+    </div>
+    <div class="service">
+      <div class="icon">🛒</div>
+      <h3>Sales Copy</h3>
+      <p>Landing pages and sales pages that persuade and drive action.</p>
+      <a class="learn" href="#contact">LEARN MORE →</a>
+    </div>
+    <div class="service">
+      <div class="icon">💬</div>
+      <h3>Brand Messaging</h3>
+      <p>Clear, compelling messaging that positions your brand for growth.</p>
+      <a class="learn" href="#contact">LEARN MORE →</a>
+    </div>
+  </div>
+</section>
+
+<section id="portfolio" class="projects">
+  <div class="container">
+    <div class="proj-head">
+      <div>
+        <span class="eyebrow">FEATURED PROJECTS</span>
+        <h2>Words with results.</h2>
+      </div>
+      <a class="view-all" href="#portfolio">VIEW ALL PROJECTS →</a>
+    </div>
+    <div class="proj-grid">
+      <a class="proj-card" href="#portfolio">
+        <div class="proj-img">
+          <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=500&q=80" alt="Lumen Skincare">
+          <span class="tag">WEBSITE COPY</span>
+        </div>
+        <h3>Lumen Skincare</h3>
+        <p>Clean, conversion-focused copy for a luxury skincare brand.</p>
+        <span class="learn">VIEW PROJECT →</span>
+      </a>
+      <a class="proj-card" href="#portfolio">
+        <div class="proj-img">
+          <img src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=500&q=80" alt="Nomad Goods">
+          <span class="tag">SALES PAGE</span>
+        </div>
+        <h3>Nomad Goods</h3>
+        <p>Sales page that increased conversions by 38%.</p>
+        <span class="learn">VIEW PROJECT →</span>
+      </a>
+      <a class="proj-card" href="#portfolio">
+        <div class="proj-img">
+          <img src="https://images.unsplash.com/photo-1596526131083-e8c633c948d2?w=500&q=80" alt="Honeylove">
+          <span class="tag">EMAIL CAMPAIGN</span>
+        </div>
+        <h3>Honeylove</h3>
+        <p>Email campaign that drove a 21% increase in revenue.</p>
+        <span class="learn">VIEW PROJECT →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="split">
+  <section id="about" class="testimonials">
+    <span class="eyebrow">KIND WORDS</span>
+    <h2>What clients say</h2>
+    <div class="quotes">
+      <div>
+        <div class="quote-mark">“</div>
+        <p>Lara nailed our brand voice and delivered website copy that truly connects. Our conversions have never been better.</p>
+        <div class="client">
+          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80" alt="Jessica Dean">
+          <div><strong>JESSICA DEAN</strong><span>Founder, Lumen Skincare</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="quote-mark">“</div>
+        <p>Professional, strategic, and incredibly easy to work with. Lara's copy drives results.</p>
+        <div class="client">
+          <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&q=80" alt="Alex Reyes">
+          <div><strong>ALEX REYES</strong><span>Marketing Director, Nomad Goods</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="quote-mark">“</div>
+        <p>The email campaign Lara wrote outperformed all our previous campaigns by far.</p>
+        <div class="client">
+          <img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=100&q=80" alt="Megan Watts">
+          <div><strong>MEGAN WATTS</strong><span>Growth Lead, Honeylove</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <span class="eyebrow">LET'S CHAT</span>
+    <h2>Ready to elevate your brand with words?</h2>
+    <form onsubmit="event.preventDefault(); alert('Message sent! (demo form)');">
+      <div class="row2">
+        <input type="text" placeholder="Your Name" required>
+        <input type="email" placeholder="Email Address" required>
+      </div>
+      <select>
+        <option>Project Type</option>
+        <option>Website Copy</option>
+        <option>Email Copy</option>
+        <option>Sales Copy</option>
+        <option>Brand Messaging</option>
+      </select>
+      <textarea placeholder="Tell me about your project..."></textarea>
+      <button type="submit" class="btn-gold" style="align-self:flex-start;">SEND MESSAGE →</button>
+    </form>
+  </section>
+</div>
+
+<section id="process" class="pricing">
+  <span class="eyebrow">INVESTMENT</span>
+  <h2>Simple, transparent pricing.</h2>
+  <div class="price-grid">
+    <div class="price-card">
+      <span class="label">PROJECT-BASED</span>
+      <div class="amount">From $750</div>
+      <p>One-time projects tailored to your specific needs.</p>
+      <a class="get-started" href="#contact">GET STARTED →</a>
+    </div>
+    <div class="price-card popular">
+      <span class="label">MOST POPULAR — PACKAGE</span>
+      <div class="amount">From $1,800</div>
+      <p>Perfect for brands that need ongoing copy support.</p>
+      <a class="get-started" href="#contact">GET STARTED →</a>
+    </div>
+    <div class="price-card">
+      <span class="label">RETAINER</span>
+      <div class="amount">From $3,000<small style="font-size:.5em;">/mo</small></div>
+      <p>Ongoing copywriting support for consistent growth.</p>
+      <a class="get-started" href="#contact">GET STARTED →</a>
+    </div>
+  </div>
+</section>
+
+<section id="newsletter" class="newsletter">
+  <div class="container">
+    <div class="newsletter-left">
+      <span>✉️</span>
+      <div>
+        <h4>Want copy tips and insights?</h4>
+        <p>Join my mailing list for exclusive content.</p>
+      </div>
+    </div>
+    <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Subscribed! (demo form)');">
+      <input type="email" placeholder="Your email address" required>
+      <button type="submit" class="btn-dark">SUBSCRIBE</button>
+    </form>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('nav a').forEach(link=>{
+    link.addEventListener('click',()=>{
+      document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
+      link.classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
