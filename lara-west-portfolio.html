@@ -36,23 +36,23 @@
   .edit-toggle:hover{transform:scale(1.05); box-shadow:0 6px 16px rgba(0,0,0,0.2);}
   .edit-toggle.active{background:#d9534f;}
   
-  .editable{position:relative;}
-  .editable.editing{outline:2px dashed var(--gold); outline-offset:4px; padding:8px; background:rgba(201, 161, 90, 0.05); border-radius:4px;}
+  .editable{position:relative; transition:.2s;}
+  .editable.editing-active{outline:2px dashed var(--gold); outline-offset:4px; padding:8px; background:rgba(201, 161, 90, 0.08); border-radius:4px;}
+  .editable.editing-active{cursor:pointer;}
   
-  .edit-field{display:none; margin-top:10px;}
-  .editable.editing .edit-field{display:block;}
-  .editable.editing > *:not(.edit-field){display:none;}
+  .edit-field{display:none; margin-top:10px; padding:12px; background:rgba(201, 161, 90, 0.1); border-radius:4px; border:1px solid var(--gold);}
+  .editable.editing-active .edit-field{display:block;}
+  .editable.editing-active > :not(.edit-field){display:none;}
   
-  .edit-field textarea, .edit-field input{width:100%; padding:12px; font-family:'Jost', sans-serif; font-size:1rem; border:1px solid var(--gold); border-radius:4px; resize:vertical; color:var(--ink);}
-  .edit-field textarea{min-height:80px;}
+  .edit-field textarea, .edit-field input, .edit-field select{width:100%; padding:10px; font-family:'Jost', sans-serif; font-size:.95rem; border:1px solid var(--gold); border-radius:4px; color:var(--ink); background:#fff;}
+  .edit-field textarea{min-height:100px; resize:vertical;}
   
-  .edit-buttons{display:flex; gap:8px; margin-top:8px;}
-  .edit-btn{padding:8px 12px; font-size:.8rem; border:none; border-radius:4px; cursor:pointer; font-weight:500; transition:.2s;}
+  .edit-buttons{display:flex; gap:8px; margin-top:10px;}
+  .edit-btn{padding:8px 14px; font-size:.75rem; border:none; border-radius:4px; cursor:pointer; font-weight:600; transition:.2s;}
   .edit-btn-save{background:var(--gold); color:#fff;}
-  .edit-btn-save:hover{opacity:.88;}
-  .edit-btn-cancel{background:var(--line); color:var(--ink);}
+  .edit-btn-save:hover{background:#b8904a;}
+  .edit-btn-cancel{background:#ddd; color:var(--ink);}
   .edit-btn-cancel:hover{background:#ccc;}
-  .edit-btn-edit{background:var(--gold); color:#fff; padding:4px 8px; font-size:.7rem; margin-top:4px;}
 
   /* NAV */
   header{
@@ -168,13 +168,13 @@
     nav{display:none;}
     .hero, .whatido, .split, .proj-grid, .quotes, .price-grid{grid-template-columns:1fr;}
     .services{grid-template-columns:repeat(2,1fr);}
-    .edit-toggle{bottom:20px; right:20px; padding:10px 16px; font-size:.75rem;}
+    .edit-toggle{bottom:20px; right:20px; padding:10px 14px; font-size:.7rem;}
   }
 </style>
 </head>
 <body>
 
-<button class="edit-toggle" onclick="toggleEditMode()">✏️ EDIT MODE</button>
+<button class="edit-toggle" onclick="toggleEditMode()">✏️ EDIT</button>
 
 <header>
   <div class="logo">LARA WEST<span>COPYWRITER</span></div>
@@ -192,24 +192,24 @@
 <section id="home" class="hero">
   <div>
     <span class="eyebrow">FREELANCE COPYWRITER</span>
-    <h1>
-      <span id="hero-main">Words that sell.<br><em>Messaging that<br>moves people.</em></span>
-      <div class="edit-field" id="hero-main-edit">
-        <textarea id="hero-main-input"></textarea>
+    <h1 class="editable" data-edit="hero-heading">Words that sell.<br><em>Messaging that<br>moves people.</em>
+      <div class="edit-field">
+        <textarea id="edit-hero-heading"></textarea>
         <div class="edit-buttons">
-          <button class="edit-btn edit-btn-save" onclick="saveEdit('hero-main', 'hero-main-input')">Save</button>
+          <button class="edit-btn edit-btn-save" onclick="saveEdit('hero-heading')">Save</button>
           <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
         </div>
       </div>
     </h1>
-    <p id="hero-desc">I help brands turn browsers into buyers with strategic copy that connects, convinces, and converts.</p>
-    <div class="edit-field" id="hero-desc-edit">
-      <textarea id="hero-desc-input"></textarea>
-      <div class="edit-buttons">
-        <button class="edit-btn edit-btn-save" onclick="saveEdit('hero-desc', 'hero-desc-input')">Save</button>
-        <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
+    <p class="editable" data-edit="hero-desc">I help brands turn browsers into buyers with strategic copy that connects, convinces, and converts.
+      <div class="edit-field">
+        <textarea id="edit-hero-desc"></textarea>
+        <div class="edit-buttons">
+          <button class="edit-btn edit-btn-save" onclick="saveEdit('hero-desc')">Save</button>
+          <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
+        </div>
       </div>
-    </div>
+    </p>
     <div class="hero-buttons">
       <a href="#portfolio"><button class="btn-dark">VIEW MY WORK →</button></a>
       <a href="#contact"><button class="btn-outline">LET'S WORK TOGETHER</button></a>
@@ -223,14 +223,14 @@
 <section class="logos">
   <div class="container">
     <span class="eyebrow">TRUSTED BY BRANDS WORLDWIDE</span>
-    <div class="logo-row" id="brands">
+    <div class="logo-row editable" data-edit="brands" id="brands-display">
       <div>FOUNDRY</div><div><em>bare.</em></div><div>LUMEN</div><div>HONEYLOVE</div><div>BRANDI D.</div><div>nomad<br><small style="font-size:.5em;letter-spacing:.2em;">GOODS</small></div>
-    </div>
-    <div class="edit-field" id="brands-edit">
-      <textarea id="brands-input" placeholder="Enter brands separated by commas"></textarea>
-      <div class="edit-buttons">
-        <button class="edit-btn edit-btn-save" onclick="saveBrands()">Save</button>
-        <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
+      <div class="edit-field">
+        <textarea id="edit-brands" placeholder="Enter brand names (use | separator for multiple lines)"></textarea>
+        <div class="edit-buttons">
+          <button class="edit-btn edit-btn-save" onclick="saveEdit('brands')">Save</button>
+          <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
+        </div>
       </div>
     </div>
   </div>
@@ -241,29 +241,93 @@
     <span class="eyebrow">WHAT I DO</span>
     <h2>Copy that communicates. Strategy that converts.</h2>
   </div>
-  <div class="services" id="services-container">
+  <div class="services">
     <div class="service">
       <div class="icon">✒️</div>
-      <h3>Website Copy</h3>
-      <p>Engaging, SEO-friendly website copy that turns visitors into loyal customers.</p>
+      <h3 class="editable" data-edit="service-1-title">Website Copy
+        <div class="edit-field">
+          <input type="text" id="edit-service-1-title">
+          <div class="edit-buttons">
+            <button class="edit-btn edit-btn-save" onclick="saveEdit('service-1-title')">Save</button>
+            <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
+          </div>
+        </div>
+      </h3>
+      <p class="editable" data-edit="service-1-desc">Engaging, SEO-friendly website copy that turns visitors into loyal customers.
+        <div class="edit-field">
+          <textarea id="edit-service-1-desc"></textarea>
+          <div class="edit-buttons">
+            <button class="edit-btn edit-btn-save" onclick="saveEdit('service-1-desc')">Save</button>
+            <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
+          </div>
+        </div>
+      </p>
       <a class="learn" href="#contact">LEARN MORE →</a>
     </div>
     <div class="service">
       <div class="icon">✉️</div>
-      <h3>Email Copy</h3>
-      <p>Sales emails and nurture sequences that get opened, read, and clicked.</p>
+      <h3 class="editable" data-edit="service-2-title">Email Copy
+        <div class="edit-field">
+          <input type="text" id="edit-service-2-title">
+          <div class="edit-buttons">
+            <button class="edit-btn edit-btn-save" onclick="saveEdit('service-2-title')">Save</button>
+            <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
+          </div>
+        </div>
+      </h3>
+      <p class="editable" data-edit="service-2-desc">Sales emails and nurture sequences that get opened, read, and clicked.
+        <div class="edit-field">
+          <textarea id="edit-service-2-desc"></textarea>
+          <div class="edit-buttons">
+            <button class="edit-btn edit-btn-save" onclick="saveEdit('service-2-desc')">Save</button>
+            <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
+          </div>
+        </div>
+      </p>
       <a class="learn" href="#contact">LEARN MORE →</a>
     </div>
     <div class="service">
       <div class="icon">🛒</div>
-      <h3>Sales Copy</h3>
-      <p>Landing pages and sales pages that persuade and drive action.</p>
+      <h3 class="editable" data-edit="service-3-title">Sales Copy
+        <div class="edit-field">
+          <input type="text" id="edit-service-3-title">
+          <div class="edit-buttons">
+            <button class="edit-btn edit-btn-save" onclick="saveEdit('service-3-title')">Save</button>
+            <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
+          </div>
+        </div>
+      </h3>
+      <p class="editable" data-edit="service-3-desc">Landing pages and sales pages that persuade and drive action.
+        <div class="edit-field">
+          <textarea id="edit-service-3-desc"></textarea>
+          <div class="edit-buttons">
+            <button class="edit-btn edit-btn-save" onclick="saveEdit('service-3-desc')">Save</button>
+            <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
+          </div>
+        </div>
+      </p>
       <a class="learn" href="#contact">LEARN MORE →</a>
     </div>
     <div class="service">
       <div class="icon">💬</div>
-      <h3>Brand Messaging</h3>
-      <p>Clear, compelling messaging that positions your brand for growth.</p>
+      <h3 class="editable" data-edit="service-4-title">Brand Messaging
+        <div class="edit-field">
+          <input type="text" id="edit-service-4-title">
+          <div class="edit-buttons">
+            <button class="edit-btn edit-btn-save" onclick="saveEdit('service-4-title')">Save</button>
+            <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
+          </div>
+        </div>
+      </h3>
+      <p class="editable" data-edit="service-4-desc">Clear, compelling messaging that positions your brand for growth.
+        <div class="edit-field">
+          <textarea id="edit-service-4-desc"></textarea>
+          <div class="edit-buttons">
+            <button class="edit-btn edit-btn-save" onclick="saveEdit('service-4-desc')">Save</button>
+            <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
+          </div>
+        </div>
+      </p>
       <a class="learn" href="#contact">LEARN MORE →</a>
     </div>
   </div>
@@ -278,32 +342,80 @@
       </div>
       <a class="view-all" href="#portfolio">VIEW ALL PROJECTS →</a>
     </div>
-    <div class="proj-grid" id="projects-container">
-      <div class="proj-card" data-project="0">
+    <div class="proj-grid">
+      <div class="proj-card">
         <div class="proj-img">
           <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=500&q=80" alt="Lumen Skincare">
           <span class="tag">WEBSITE COPY</span>
         </div>
-        <h3>Lumen Skincare</h3>
-        <p>Clean, conversion-focused copy for a luxury skincare brand.</p>
+        <h3 class="editable" data-edit="project-1-title">Lumen Skincare
+          <div class="edit-field">
+            <input type="text" id="edit-project-1-title">
+            <div class="edit-buttons">
+              <button class="edit-btn edit-btn-save" onclick="saveEdit('project-1-title')">Save</button>
+              <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
+            </div>
+          </div>
+        </h3>
+        <p class="editable" data-edit="project-1-desc">Clean, conversion-focused copy for a luxury skincare brand.
+          <div class="edit-field">
+            <textarea id="edit-project-1-desc"></textarea>
+            <div class="edit-buttons">
+              <button class="edit-btn edit-btn-save" onclick="saveEdit('project-1-desc')">Save</button>
+              <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
+            </div>
+          </div>
+        </p>
         <span class="learn">VIEW PROJECT →</span>
       </div>
-      <div class="proj-card" data-project="1">
+      <div class="proj-card">
         <div class="proj-img">
           <img src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=500&q=80" alt="Nomad Goods">
           <span class="tag">SALES PAGE</span>
         </div>
-        <h3>Nomad Goods</h3>
-        <p>Sales page that increased conversions by 38%.</p>
+        <h3 class="editable" data-edit="project-2-title">Nomad Goods
+          <div class="edit-field">
+            <input type="text" id="edit-project-2-title">
+            <div class="edit-buttons">
+              <button class="edit-btn edit-btn-save" onclick="saveEdit('project-2-title')">Save</button>
+              <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
+            </div>
+          </div>
+        </h3>
+        <p class="editable" data-edit="project-2-desc">Sales page that increased conversions by 38%.
+          <div class="edit-field">
+            <textarea id="edit-project-2-desc"></textarea>
+            <div class="edit-buttons">
+              <button class="edit-btn edit-btn-save" onclick="saveEdit('project-2-desc')">Save</button>
+              <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
+            </div>
+          </div>
+        </p>
         <span class="learn">VIEW PROJECT →</span>
       </div>
-      <div class="proj-card" data-project="2">
+      <div class="proj-card">
         <div class="proj-img">
           <img src="https://images.unsplash.com/photo-1596526131083-e8c633c948d2?w=500&q=80" alt="Honeylove">
           <span class="tag">EMAIL CAMPAIGN</span>
         </div>
-        <h3>Honeylove</h3>
-        <p>Email campaign that drove a 21% increase in revenue.</p>
+        <h3 class="editable" data-edit="project-3-title">Honeylove
+          <div class="edit-field">
+            <input type="text" id="edit-project-3-title">
+            <div class="edit-buttons">
+              <button class="edit-btn edit-btn-save" onclick="saveEdit('project-3-title')">Save</button>
+              <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
+            </div>
+          </div>
+        </h3>
+        <p class="editable" data-edit="project-3-desc">Email campaign that drove a 21% increase in revenue.
+          <div class="edit-field">
+            <textarea id="edit-project-3-desc"></textarea>
+            <div class="edit-buttons">
+              <button class="edit-btn edit-btn-save" onclick="saveEdit('project-3-desc')">Save</button>
+              <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
+            </div>
+          </div>
+        </p>
         <span class="learn">VIEW PROJECT →</span>
       </div>
     </div>
@@ -314,29 +426,110 @@
   <section id="about" class="testimonials">
     <span class="eyebrow">KIND WORDS</span>
     <h2>What clients say</h2>
-    <div class="quotes" id="quotes-container">
-      <div class="quote" data-quote="0">
+    <div class="quotes">
+      <div>
         <div class="quote-mark">"</div>
-        <p>Lara nailed our brand voice and delivered website copy that truly connects. Our conversions have never been better.</p>
+        <p class="editable" data-edit="quote-1">Lara nailed our brand voice and delivered website copy that truly connects. Our conversions have never been better.
+          <div class="edit-field">
+            <textarea id="edit-quote-1"></textarea>
+            <div class="edit-buttons">
+              <button class="edit-btn edit-btn-save" onclick="saveEdit('quote-1')">Save</button>
+              <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
+            </div>
+          </div>
+        </p>
         <div class="client">
           <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80" alt="Jessica Dean">
-          <div><strong>JESSICA DEAN</strong><span>Founder, Lumen Skincare</span></div>
+          <div>
+            <strong class="editable" data-edit="client-1-name">JESSICA DEAN
+              <div class="edit-field">
+                <input type="text" id="edit-client-1-name">
+                <div class="edit-buttons">
+                  <button class="edit-btn edit-btn-save" onclick="saveEdit('client-1-name')">Save</button>
+                  <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
+                </div>
+              </div>
+            </strong>
+            <span class="editable" data-edit="client-1-title">Founder, Lumen Skincare
+              <div class="edit-field">
+                <input type="text" id="edit-client-1-title">
+                <div class="edit-buttons">
+                  <button class="edit-btn edit-btn-save" onclick="saveEdit('client-1-title')">Save</button>
+                  <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
+                </div>
+              </div>
+            </span>
+          </div>
         </div>
       </div>
-      <div class="quote" data-quote="1">
+      <div>
         <div class="quote-mark">"</div>
-        <p>Professional, strategic, and incredibly easy to work with. Lara's copy drives results.</p>
+        <p class="editable" data-edit="quote-2">Professional, strategic, and incredibly easy to work with. Lara's copy drives results.
+          <div class="edit-field">
+            <textarea id="edit-quote-2"></textarea>
+            <div class="edit-buttons">
+              <button class="edit-btn edit-btn-save" onclick="saveEdit('quote-2')">Save</button>
+              <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
+            </div>
+          </div>
+        </p>
         <div class="client">
           <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&q=80" alt="Alex Reyes">
-          <div><strong>ALEX REYES</strong><span>Marketing Director, Nomad Goods</span></div>
+          <div>
+            <strong class="editable" data-edit="client-2-name">ALEX REYES
+              <div class="edit-field">
+                <input type="text" id="edit-client-2-name">
+                <div class="edit-buttons">
+                  <button class="edit-btn edit-btn-save" onclick="saveEdit('client-2-name')">Save</button>
+                  <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
+                </div>
+              </div>
+            </strong>
+            <span class="editable" data-edit="client-2-title">Marketing Director, Nomad Goods
+              <div class="edit-field">
+                <input type="text" id="edit-client-2-title">
+                <div class="edit-buttons">
+                  <button class="edit-btn edit-btn-save" onclick="saveEdit('client-2-title')">Save</button>
+                  <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
+                </div>
+              </div>
+            </span>
+          </div>
         </div>
       </div>
-      <div class="quote" data-quote="2">
+      <div>
         <div class="quote-mark">"</div>
-        <p>The email campaign Lara wrote outperformed all our previous campaigns by far.</p>
+        <p class="editable" data-edit="quote-3">The email campaign Lara wrote outperformed all our previous campaigns by far.
+          <div class="edit-field">
+            <textarea id="edit-quote-3"></textarea>
+            <div class="edit-buttons">
+              <button class="edit-btn edit-btn-save" onclick="saveEdit('quote-3')">Save</button>
+              <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
+            </div>
+          </div>
+        </p>
         <div class="client">
           <img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=100&q=80" alt="Megan Watts">
-          <div><strong>MEGAN WATTS</strong><span>Growth Lead, Honeylove</span></div>
+          <div>
+            <strong class="editable" data-edit="client-3-name">MEGAN WATTS
+              <div class="edit-field">
+                <input type="text" id="edit-client-3-name">
+                <div class="edit-buttons">
+                  <button class="edit-btn edit-btn-save" onclick="saveEdit('client-3-name')">Save</button>
+                  <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
+                </div>
+              </div>
+            </strong>
+            <span class="editable" data-edit="client-3-title">Growth Lead, Honeylove
+              <div class="edit-field">
+                <input type="text" id="edit-client-3-title">
+                <div class="edit-buttons">
+                  <button class="edit-btn edit-btn-save" onclick="saveEdit('client-3-title')">Save</button>
+                  <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
+                </div>
+              </div>
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -366,23 +559,95 @@
 <section id="process" class="pricing">
   <span class="eyebrow">INVESTMENT</span>
   <h2>Simple, transparent pricing.</h2>
-  <div class="price-grid" id="pricing-container">
-    <div class="price-card" data-price="0">
-      <span class="label">PROJECT-BASED</span>
-      <div class="amount">From $750</div>
-      <p>One-time projects tailored to your specific needs.</p>
+  <div class="price-grid">
+    <div class="price-card">
+      <span class="label editable" data-edit="price-1-label">PROJECT-BASED
+        <div class="edit-field">
+          <input type="text" id="edit-price-1-label">
+          <div class="edit-buttons">
+            <button class="edit-btn edit-btn-save" onclick="saveEdit('price-1-label')">Save</button>
+            <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
+          </div>
+        </div>
+      </span>
+      <div class="amount editable" data-edit="price-1-amount">From $750
+        <div class="edit-field">
+          <input type="text" id="edit-price-1-amount">
+          <div class="edit-buttons">
+            <button class="edit-btn edit-btn-save" onclick="saveEdit('price-1-amount')">Save</button>
+            <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
+          </div>
+        </div>
+      </div>
+      <p class="editable" data-edit="price-1-desc">One-time projects tailored to your specific needs.
+        <div class="edit-field">
+          <textarea id="edit-price-1-desc"></textarea>
+          <div class="edit-buttons">
+            <button class="edit-btn edit-btn-save" onclick="saveEdit('price-1-desc')">Save</button>
+            <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
+          </div>
+        </div>
+      </p>
       <a class="get-started" href="#contact">GET STARTED →</a>
     </div>
-    <div class="price-card popular" data-price="1">
-      <span class="label">MOST POPULAR — PACKAGE</span>
-      <div class="amount">From $1,800</div>
-      <p>Perfect for brands that need ongoing copy support.</p>
+    <div class="price-card popular">
+      <span class="label editable" data-edit="price-2-label">MOST POPULAR — PACKAGE
+        <div class="edit-field">
+          <input type="text" id="edit-price-2-label">
+          <div class="edit-buttons">
+            <button class="edit-btn edit-btn-save" onclick="saveEdit('price-2-label')">Save</button>
+            <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
+          </div>
+        </div>
+      </span>
+      <div class="amount editable" data-edit="price-2-amount">From $1,800
+        <div class="edit-field">
+          <input type="text" id="edit-price-2-amount">
+          <div class="edit-buttons">
+            <button class="edit-btn edit-btn-save" onclick="saveEdit('price-2-amount')">Save</button>
+            <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
+          </div>
+        </div>
+      </div>
+      <p class="editable" data-edit="price-2-desc">Perfect for brands that need ongoing copy support.
+        <div class="edit-field">
+          <textarea id="edit-price-2-desc"></textarea>
+          <div class="edit-buttons">
+            <button class="edit-btn edit-btn-save" onclick="saveEdit('price-2-desc')">Save</button>
+            <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
+          </div>
+        </div>
+      </p>
       <a class="get-started" href="#contact">GET STARTED →</a>
     </div>
-    <div class="price-card" data-price="2">
-      <span class="label">RETAINER</span>
-      <div class="amount">From $3,000<small style="font-size:.5em;">/mo</small></div>
-      <p>Ongoing copywriting support for consistent growth.</p>
+    <div class="price-card">
+      <span class="label editable" data-edit="price-3-label">RETAINER
+        <div class="edit-field">
+          <input type="text" id="edit-price-3-label">
+          <div class="edit-buttons">
+            <button class="edit-btn edit-btn-save" onclick="saveEdit('price-3-label')">Save</button>
+            <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
+          </div>
+        </div>
+      </span>
+      <div class="amount editable" data-edit="price-3-amount">From $3,000<small style="font-size:.5em;">/mo</small>
+        <div class="edit-field">
+          <input type="text" id="edit-price-3-amount">
+          <div class="edit-buttons">
+            <button class="edit-btn edit-btn-save" onclick="saveEdit('price-3-amount')">Save</button>
+            <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
+          </div>
+        </div>
+      </div>
+      <p class="editable" data-edit="price-3-desc">Ongoing copywriting support for consistent growth.
+        <div class="edit-field">
+          <textarea id="edit-price-3-desc"></textarea>
+          <div class="edit-buttons">
+            <button class="edit-btn edit-btn-save" onclick="saveEdit('price-3-desc')">Save</button>
+            <button class="edit-btn edit-btn-cancel" onclick="cancelEdit()">Cancel</button>
+          </div>
+        </div>
+      </p>
       <a class="get-started" href="#contact">GET STARTED →</a>
     </div>
   </div>
@@ -405,7 +670,6 @@
 </section>
 
 <script>
-  // Initialize edit mode and load saved data
   let editMode = false;
   let currentEditElement = null;
 
@@ -413,109 +677,93 @@
     editMode = !editMode;
     const btn = document.querySelector('.edit-toggle');
     btn.classList.toggle('active', editMode);
-    btn.textContent = editMode ? '✓ EDITING' : '✏️ EDIT MODE';
+    btn.textContent = editMode ? '✓ EDIT MODE' : '✏️ EDIT';
     
-    // Show/hide editable content
-    const editables = document.querySelectorAll('h1 > span, p#hero-desc, .logo-row, .service h3, .service p, .proj-card h3, .proj-card p, .quote p, .client strong, .client span, .price-card .label, .price-card .amount, .price-card p');
-    
-    if (editMode) {
-      editables.forEach(el => {
-        el.style.cursor = 'pointer';
+    const editables = document.querySelectorAll('.editable');
+    editables.forEach(el => {
+      if (editMode) {
         el.addEventListener('click', startEdit);
-      });
-    } else {
-      editables.forEach(el => {
-        el.style.cursor = 'auto';
+      } else {
         el.removeEventListener('click', startEdit);
-      });
-    }
+      }
+    });
   }
 
   function startEdit(e) {
     if (!editMode) return;
     
-    const element = e.target.closest('h1 > span, p#hero-desc, .logo-row, .service h3, .service p, .proj-card h3, .proj-card p, .quote p, .client strong, .client span, .price-card .label, .price-card .amount, .price-card p');
-    if (!element) return;
+    const element = e.currentTarget;
+    if (!element.classList.contains('editable')) return;
+    
+    const editKey = element.dataset.edit;
+    if (!editKey) return;
+    
+    // Cancel any existing edit
+    cancelEdit();
     
     currentEditElement = element;
+    element.classList.add('editing-active');
     
-    if (element.id === 'hero-main') {
-      document.getElementById('hero-main-input').value = element.innerHTML.replace(/<br>/g, '\n').replace(/<em>/g, '').replace(/<\/em>/g, '');
-      element.parentElement.style.display = 'none';
-      document.getElementById('hero-main-edit').style.display = 'block';
-    } else if (element.id === 'hero-desc') {
-      document.getElementById('hero-desc-input').value = element.textContent;
-      element.style.display = 'none';
-      document.getElementById('hero-desc-edit').style.display = 'block';
+    const inputField = document.getElementById(`edit-${editKey}`);
+    if (inputField) {
+      if (inputField.tagName === 'TEXTAREA') {
+        inputField.value = element.textContent.trim();
+      } else if (inputField.tagName === 'INPUT') {
+        inputField.value = element.textContent.trim();
+      }
+      setTimeout(() => inputField.focus(), 100);
     }
   }
 
-  function saveEdit(elementId, inputId) {
-    const input = document.getElementById(inputId);
-    const element = document.getElementById(elementId);
+  function saveEdit(editKey) {
+    const element = document.querySelector(`[data-edit="${editKey}"]`);
+    const inputField = document.getElementById(`edit-${editKey}`);
     
-    if (elementId === 'hero-main') {
-      element.innerHTML = input.value.replace(/\n/g, '<br>');
-      document.getElementById('hero-main-edit').style.display = 'none';
-      element.parentElement.style.display = 'block';
-    } else if (elementId === 'hero-desc') {
-      element.textContent = input.value;
-      document.getElementById('hero-desc-edit').style.display = 'none';
-      element.style.display = 'block';
+    if (element && inputField) {
+      const newValue = inputField.value.trim();
+      
+      // Special handling for brands
+      if (editKey === 'brands') {
+        const brandsArray = newValue.split('|').map(b => b.trim());
+        element.innerHTML = brandsArray.map(b => `<div>${b}</div>`).join('');
+      } else if (editKey === 'hero-heading') {
+        element.innerHTML = newValue.replace(/\n/g, '<br>');
+      } else {
+        element.textContent = newValue;
+      }
+      
+      // Save to localStorage
+      localStorage.setItem(`edit-${editKey}`, newValue);
+      
+      element.classList.remove('editing-active');
+      currentEditElement = null;
     }
-    
-    localStorage.setItem(elementId, input.value);
-    currentEditElement = null;
   }
 
   function cancelEdit() {
-    document.querySelectorAll('.edit-field').forEach(el => el.style.display = 'none');
-    if (currentEditElement) {
-      currentEditElement.style.display = '';
-      if (currentEditElement.parentElement) {
-        currentEditElement.parentElement.style.display = '';
-      }
+    const activeEdit = document.querySelector('.editable.editing-active');
+    if (activeEdit) {
+      activeEdit.classList.remove('editing-active');
     }
+    currentEditElement = null;
   }
 
-  function saveBrands() {
-    const input = document.getElementById('brands-input').value;
-    const brands = input.split(',').map(b => b.trim());
-    
-    const container = document.getElementById('brands');
-    container.innerHTML = '';
-    
-    brands.forEach((brand, idx) => {
-      const div = document.createElement('div');
-      div.textContent = brand;
-      container.appendChild(div);
-    });
-    
-    document.getElementById('brands-edit').style.display = 'none';
-    container.style.display = 'flex';
-    
-    localStorage.setItem('brands', input);
-  }
-
-  // Load saved data on page load
   function loadSavedData() {
-    const heroMain = localStorage.getItem('hero-main');
-    if (heroMain) document.getElementById('hero-main').innerHTML = heroMain.replace(/\n/g, '<br>');
-    
-    const heroDesc = localStorage.getItem('hero-desc');
-    if (heroDesc) document.getElementById('hero-desc').textContent = heroDesc;
-    
-    const brands = localStorage.getItem('brands');
-    if (brands) {
-      const brandList = brands.split(',').map(b => b.trim());
-      const container = document.getElementById('brands');
-      container.innerHTML = '';
-      brandList.forEach(brand => {
-        const div = document.createElement('div');
-        div.textContent = brand;
-        container.appendChild(div);
-      });
-    }
+    const editables = document.querySelectorAll('[data-edit]');
+    editables.forEach(el => {
+      const editKey = el.dataset.edit;
+      const savedValue = localStorage.getItem(`edit-${editKey}`);
+      if (savedValue) {
+        if (editKey === 'brands') {
+          const brandsArray = savedValue.split('|').map(b => b.trim());
+          el.innerHTML = brandsArray.map(b => `<div>${b}</div>`).join('');
+        } else if (editKey === 'hero-heading') {
+          el.innerHTML = savedValue.replace(/\n/g, '<br>');
+        } else {
+          el.textContent = savedValue;
+        }
+      }
+    });
   }
 
   // Navigation active state
